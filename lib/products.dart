@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class Products extends StatelessWidget{
 
-  final List<Map<String, String>> products;
-  final Function deleteProduct;
+  final List<Map<String, dynamic>> products;
 
-  Products(this.products, {this.deleteProduct});
+
+  Products(this.products);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,26 @@ class Products extends StatelessWidget{
       child: Column(
         children: <Widget>[
           Image.asset(products[index]['image']),
-          Text(products[index]['tittle']),
+          //SizedBox(height: 10.0,),
+          Container(
+            //margin: EdgeInsets.all(10.0),
+            //margin: EdgeInsets.only(top: 10.0),
+            //margin: EdgeInsets.symmetric(vertical: 10.0),
+            padding: EdgeInsets.only(top: 10.0),
+            child:  Text(
+              products[index]['tittle'] ,
+              style: TextStyle(
+                  fontSize: 26.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Oswald'
+
+              ),
+            ),
+          ),
+          /*Padding(
+            padding: EdgeInsets.only(top: 10.0),
+            child:  Text(products[index]['tittle']),
+          ),*/
           ButtonBar(
             alignment: MainAxisAlignment.center ,
             children: <Widget>[
@@ -29,11 +48,7 @@ class Products extends StatelessWidget{
                   Text('Details'),
                   onPressed: ()=> Navigator
                                   .pushNamed<bool>(context, '/product/' +index.toString())
-                                  .then((bool value){
-                                       if(value){
-                                         deleteProduct(index);
-                                       }
-                                  }),
+
               )
             ],
           )
