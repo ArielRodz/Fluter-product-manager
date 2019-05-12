@@ -3,9 +3,11 @@ import 'package:first_app/pages/product.dart';
 import 'package:first_app/pages/product_admin.dart';
 import 'package:first_app/pages/products.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 
-main() {
+
+void main() {
 
   //debugPaintSizeEnabled = true;
   //debugPaintBaselinesEnabled = true;
@@ -32,6 +34,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _updateProduct(int index, Map<String, dynamic> product){
+    setState(() {
+      _products[index] = product;
+    });
+  }
+
   void _deleteProduct(int index)
   {
     setState(() {
@@ -47,14 +55,13 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         primarySwatch: Colors.deepOrange,
         accentColor: Colors.deepPurple,
+        buttonColor: Colors.deepPurple
 
       ),
-     // home: AuthPage(),
       routes: {
-        '/': (BuildContext context) =>  AuthPage()/* ProductsPage(_products)*/ ,
+        '/': (BuildContext context) =>  AuthPage(),
         '/home': (BuildContext context) =>   ProductsPage(_products) ,
-
-        '/admin': (BuildContext context) => ProductAdminPage(_addProduct, _deleteProduct),
+        '/admin': (BuildContext context) => ProductAdminPage(_addProduct, _updateProduct, _deleteProduct, _products),
       },
       onGenerateRoute: (RouteSettings settings){
         final List<String> pathElements = settings.name.split('/');
@@ -66,7 +73,11 @@ class _MyAppState extends State<MyApp> {
           final int index =  int.parse(pathElements[2]);
 
           return  MaterialPageRoute<bool>(
-              builder: (context) =>  ProductPage(tittle: _products[index]['tittle'],imageUrl: _products[index]['image'])
+              builder: (context) =>  ProductPage(
+                title: _products[index]['title'],
+                imageUrl: _products[index]['image'],
+                price: _products[index]['price'],
+               description:  _products[index]['description'] ,)
           );
         }
 
