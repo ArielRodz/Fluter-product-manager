@@ -1,12 +1,12 @@
+
+import 'package:first_app/scoped-models/products.dart';
 import 'package:first_app/widgets/products/products.dart';
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductsPage extends StatelessWidget{
 
-  List<Map<String,dynamic>>_products =[];
 
-
-  ProductsPage(this._products);
 
   Widget _buildSlideDrawer(BuildContext context){
 
@@ -32,13 +32,19 @@ class ProductsPage extends StatelessWidget{
         title: Text('Essy List'),
         actions: <Widget>[
 
-          IconButton(
-            icon: Icon(Icons.favorite),
-            onPressed: (){},),
+          ScopedModelDescendant<ProductsModel>(builder: (BuildContext context, Widget child, ProductsModel model)
+          {
+            return  IconButton(
+            icon: Icon(model.displayFavoritesOnly ? Icons.favorite : Icons.favorite_border),
+            onPressed: (){
+              model.toggleDisplayMode();
+            },);
+          }),
+
         ],
       ),
       //body: ProductManager(startingProduct: 'food tester'),
-      body:  Products(_products),
+      body:  Products(),
     );
   }
 

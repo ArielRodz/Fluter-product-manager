@@ -1,18 +1,18 @@
+import 'package:first_app/models/product.dart';
+import 'package:first_app/scoped-models/products.dart';
 import 'package:first_app/widgets/ui_elements/title_default.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductPage extends StatelessWidget{
-  final String title;
-  final String imageUrl;
-  final double price;
-  final String description;
-
-  ProductPage({this.title, this.imageUrl, this.price, this.description});
 
 
-  Widget _buildAddressPriceRow()
+  final int productIndex;
+  ProductPage(this.productIndex);
+
+
+  Widget _buildAddressPriceRow(double price)
   {
 
     return Row(
@@ -36,37 +36,50 @@ class ProductPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return WillPopScope(onWillPop: (){
+    return
 
-      Navigator.pop(context, false);
-      return Future.value(false);
+      WillPopScope(onWillPop: (){
 
-    },child: Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      //body: ProductManager(startingProduct: 'food tester'),
-      body:  Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children:
-        <Widget>[
-          Image.asset(imageUrl),
+        Navigator.pop(context, false);
+        return Future.value(false);
+        },
+        child: ScopedModelDescendant<ProductsModel>(builder: (BuildContext context, Widget child, ProductsModel model){
 
-          Container(
-              padding: EdgeInsets.all(10.0),
-              child: TitleDefault(title),
-          ),
-          _buildAddressPriceRow(),
-          Container(
-            padding: EdgeInsets.all(10.0),
+          final List<Product> products = model.displayedProducts;
 
-            child:  Text(description, textAlign: TextAlign.center,),
-          )
+          return Scaffold(
+              appBar: AppBar(
+                title: Text(products[productIndex].title),
+              ),
+              //body: ProductManager(startingProduct: 'food tester'),
+              body:  Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children:
+                <Widget>[
+                  Image.asset(products[productIndex].image),
 
-        ],
-      ),
+                  Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: TitleDefault(products[productIndex].title),
+                  ),
+                  _buildAddressPriceRow(products[productIndex].price),
+                  Container(
+                    padding: EdgeInsets.all(10.0),
 
-    ),);
+                    child:  Text(products[productIndex].description, textAlign: TextAlign.center,),
+                  )
+
+                ],
+              ),
+
+            );
+
+        } ) ,
+
+
+
+
+    );
   }
 
 
