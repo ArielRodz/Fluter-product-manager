@@ -2,12 +2,9 @@ import 'package:first_app/pages/auth.dart';
 import 'package:first_app/pages/product.dart';
 import 'package:first_app/pages/product_admin.dart';
 import 'package:first_app/pages/products.dart';
-import 'package:first_app/scoped-models/products.dart';
+import 'package:first_app/scoped-models/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:scoped_model/scoped_model.dart';
-
-import 'models/product.dart';
 
 
 
@@ -30,8 +27,8 @@ class MyApp extends StatefulWidget {
 }
 class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
-    return ScopedModel<ProductsModel>(
-      model: ProductsModel(),
+    return ScopedModel<MainModel>(
+      model: MainModel(),
       child: MaterialApp(
       //debugShowMaterialGrid: true,
       theme: ThemeData(

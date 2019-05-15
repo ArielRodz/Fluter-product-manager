@@ -1,4 +1,3 @@
-import 'package:first_app/models/product.dart';
 import 'package:flutter/material.dart';
 import './product_edit.dart';
 import './product_list.dart';

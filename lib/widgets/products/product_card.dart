@@ -1,5 +1,6 @@
 import 'package:first_app/models/product.dart';
-import 'package:first_app/scoped-models/products.dart';
+import 'package:first_app/scoped-models/connected_products.dart';
+import 'package:first_app/scoped-models/main.dart';
 import 'package:first_app/widgets/products/price_tag.dart';
 import 'package:first_app/widgets/ui_elements/title_default.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class ProductCard extends StatelessWidget{
             onPressed: ()=> Navigator.pushNamed<bool>(context, '/product/' +productIndex.toString())
 
         ),
-        ScopedModelDescendant<ProductsModel>(
+        ScopedModelDescendant<MainModel>(
           builder: (BuildContext context, Widget child, ProductsModel model ){
             return IconButton(
                 icon:Icon( model.displayedProducts[productIndex].isFavorite ? Icons.favorite : Icons.favorite_border),
@@ -72,6 +73,7 @@ class ProductCard extends StatelessWidget{
           Image.asset(product.image),
           _buildTitlePriceRow(),
           AddressTag('Union Square, San Francisco'),
+          Text(product.userEmail),
           _buildActionButtons(context),
         ],
       ),

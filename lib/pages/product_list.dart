@@ -1,6 +1,6 @@
-import 'package:first_app/models/product.dart';
 import 'package:first_app/pages/product_edit.dart';
-import 'package:first_app/scoped-models/products.dart';
+import 'package:first_app/scoped-models/connected_products.dart';
+import 'package:first_app/scoped-models/main.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -12,7 +12,7 @@ class ProductListPage extends StatelessWidget{
 
    Widget _buildEditButton(BuildContext context, int index)
    {
-     return ScopedModelDescendant<ProductsModel>(builder: (BuildContext context, Widget child , ProductsModel model){
+     return ScopedModelDescendant<MainModel>(builder: (BuildContext context, Widget child , ProductsModel model){
         return IconButton(
             icon: Icon(Icons.edit),
             onPressed:(){
@@ -20,7 +20,9 @@ class ProductListPage extends StatelessWidget{
 
               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
                 return ProductEditPage();
-              }));
+              })).then((_) {
+                model.selectProduct(null);
+              });
 
 
             }
@@ -30,7 +32,7 @@ class ProductListPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-     return ScopedModelDescendant<ProductsModel>(builder: (BuildContext context, Widget child, ProductsModel model)
+     return ScopedModelDescendant<MainModel>(builder: (BuildContext context, Widget child, ProductsModel model)
         {
 
           return Container(
@@ -61,10 +63,10 @@ class ProductListPage extends StatelessWidget{
                     ListTile(
                         contentPadding: EdgeInsets.all(5.0),
                         leading: CircleAvatar(
-                          backgroundImage: AssetImage(model.displayedProducts[index].image),
+                          backgroundImage: AssetImage(model.AllProducts[index].image),
                         ),
-                        title: Text(model.displayedProducts[index].title),
-                        subtitle: Text('\$${model.displayedProducts[index].price.toString()}'),
+                        title: Text(model.AllProducts[index].title),
+                        subtitle: Text('\$${model.AllProducts[index].price.toString()}'),
                         trailing: _buildEditButton(context, index)
                     ),
                     Divider()
@@ -72,7 +74,7 @@ class ProductListPage extends StatelessWidget{
 
 
 
-              }, itemCount: model.displayedProducts.length,),);
+              }, itemCount: model.AllProducts.length,),);
         });
   }
 
